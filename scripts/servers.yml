@@ -54,11 +54,35 @@ Resources:
             Value: !Sub ${EnvironmentName} Web Sever Sec Group
           - Key: StudentName
             Value: !Ref StudentName
-    #ProfileWithRolesForOurApp:
-        #Type: AWS::IAM::InstanceProfile
-        #Properties:
-        #  Roles:
-        #  - UdacityS3ReadOnlyEC2
+
+    UdacityS3ReadOnlyEC2:
+        Type: AWS::IAM::Role
+        Properties:
+          RoleName: UdacityS3ReadOnlyEC2
+          AssumeRolePolicyDocument:
+            Statement:
+               - Effect: "Allow"
+                 Principal:
+                   Service:
+                    - "ec2.amazonaws.com"
+                 Action:
+                  - "sts:AssumeRole"
+          Policies:
+                - PolicyName: "S3ReadOnlyAccess"
+                  PolicyDocument: 
+                     Statement:
+                       - Effect: "Allow"
+                         Action:
+                         - "s3:GetObject"
+                         Resource: "*"
+
+    ProfileWithRolesForOurApp:
+      Type: AWS::IAM::InstanceProfile
+      Properties: 
+        Roles:
+        - !Ref UdacityS3ReadOnlyEC2
+      DependsOn: UdacityS3ReadOnlyEC2
+
     WebAppLaunchConfig:
       Type: AWS::AutoScaling::LaunchConfiguration
       Properties:
@@ -76,9 +100,8 @@ Resources:
         ImageId: ami-0e342d72b12109f91
         SecurityGroups:
           - Ref: WebServerSecGroup
-       # IamInstanceProfile:
-        #  - Ref: ProfileWithRolesForOurApp
         InstanceType: t3.medium
+        IamInstanceProfile: !Ref ProfileWithRolesForOurApp
         BlockDeviceMappings:
           - DeviceName: "/dev/sdk"
             Ebs:
