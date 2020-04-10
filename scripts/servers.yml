@@ -72,7 +72,7 @@ Resources:
            cd /var/www/html
            aws s3 cp s3://udacity-project2-zip/udacity.zip .
            unzip -o udacity.zip
-           echo "it works! Udagram, Udacity!" > index.html
+           echo "it works! Udagram, Udacity!" >> index.html
         ImageId: ami-0e342d72b12109f91
         SecurityGroups:
           - Ref: WebServerSecGroup
