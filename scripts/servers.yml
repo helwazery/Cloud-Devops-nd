@@ -92,9 +92,9 @@ Resources:
            apt-get update -y
            apt-get install unzip awscli -y
            apt-get install apache2 -y
-           systemctl start apache2.service
            cd /var/www/html
            echo "it works! Udagram, Udacity!" > index.html
+           systemctl start apache2.service
            aws s3 cp s3://udacity-project2-zip/udacity.zip .
            unzip -o udacity.zip
         ImageId: ami-0e342d72b12109f91
