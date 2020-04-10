@@ -1,0 +1,11 @@
+[
+	{
+		"ParameterKey": "EnvironmentName",
+		"ParameterValue": "UdacityProject2"
+	},
+	
+    {
+        "ParameterKey":"StudentName",
+        "ParameterValue": "Hala-Elwazery"
+    }
+]
