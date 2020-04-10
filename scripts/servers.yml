@@ -72,6 +72,7 @@ Resources:
            cd /var/www/html
            aws s3 cp s3://udacity-project2-zip/udacity.zip .
            unzip -o udacity.zip
+           echo "it works! Udagram, Udacity!" > index.html
         ImageId: ami-0e342d72b12109f91
         SecurityGroups:
           - Ref: WebServerSecGroup
@@ -141,3 +142,9 @@ Resources:
                  Values: [/]
           ListenerArn: !Ref 'Listener'
           Priority: 1
+Outputs:
+    WebAppLB:
+        Description: The load balancer URL
+        Value: !Join ["", ["http://", !GetAtt WebAppLB.DNSName,]]
+        Export:
+          Name: !Sub ${EnvironmentName}-DNS-NAME
